@@ -3,7 +3,8 @@ const app = express();
 
 
 
-app.use('/auth', require('./routes/auth'));
+app.use('/auth', require('./auth'));
+app.use('/vote', require('./vote'));
 
 
 
