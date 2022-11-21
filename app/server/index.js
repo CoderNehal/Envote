@@ -1,17 +1,18 @@
 const express = require('express');
 const app = express();
 const mysql = require('mysql');
-const port = 8000;
+const port = 4000;
 
 
 // Parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Create connection
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'nehalughade',
+    password: '',
     database: 'voting'
 });
 
@@ -54,6 +55,24 @@ app.get('/create-table', (req, res) => {
             console.log(result);
             res.send('Table created');
         });
+});
+
+
+
+
+//Use this to insert the data into table
+app.use('/insert-data',(req,res)=>{
+    
+    let sql='INSERT INTO Voters values('+req.body.id+',"'+req.body.name+'",0)';
+    db.query(sql,(err,result)=>{
+        if(err)
+        {
+            console.log(err);
+            throw err
+        }
+        console.log(result);
+    })
+    res.send("Data inserted")
 });
 
 // tracker
