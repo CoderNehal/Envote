@@ -28,7 +28,7 @@ app.post('/',(req,res)=>{
             console.log(err)
             return res.render('error')
         }
-        // console.log(result);
+        console.log(result);
         db.query("UPDATE Voters SET voted = 1 WHERE id="+voter_id,(err,result)=>{
             if(err){
                 console.log(err);
