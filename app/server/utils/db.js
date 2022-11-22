@@ -2,7 +2,7 @@ const mysql =  require('mysql')
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'nehalughade',
     database: 'voting'
 });
 
@@ -11,7 +11,7 @@ const db = mysql.createConnection({
 const connect = () =>{
 db.connect((err) => {
     if (err) {
-        console.err('Error connecting to database');
+        console.log('Error connecting to database');
         throw err;
     }
     console.log('Connected to database');
