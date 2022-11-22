@@ -148,7 +148,7 @@ app.use('/', require('./routes'));
 
 // For other routes
 app.use('*', (req, res) => {
-    res.send('404 Not Found');
+    res.render('error404');
 });
 
 app.listen(port, () => {

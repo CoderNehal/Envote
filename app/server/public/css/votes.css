@@ -1,20 +1,34 @@
+
+.Heading
+{
+    text-transform: uppercase;
+    font-size: 2rem;
+    text-align: center;
+    padding: 2rem 0;
+    color:#eb7434;
+    font-family:sans-serif;
+}
 .vote-container
 {
-    width:160rem;
+    width:100vw;
     display: flex;
-    flex-wrap: wrap
-    justify-content: space-between;
-    
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0 1rem;
 }
 
 .card1
 {
-    margin:1rem;
+    
     display: flex;
-    width:22rem;
+    width:18rem;
+    justify-content: space-evenly;
     flex-direction: column;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
 
 }
 .card1:hover {
@@ -38,7 +52,7 @@
 
 .card-title{
     align-self: center;
-    margin:1rem;
+    margin-bottom: .5rem;
     font-size: 2rem;
 }
 
@@ -53,11 +67,11 @@
 
 .vote-btn
 {
-      margin:2rem 7rem;
-      padding: .7rem;
-      width: auto;
+     
+      padding: .6rem 2rem;
+      margin-top:1rem;
       background-image: linear-gradient(to right,#eb8334,#eb7434);
-      border-radius: 1rem;
+      border-radius: 1.5rem;
       border: none;
       font-size: 1.3rem;
       color:white;

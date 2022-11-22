@@ -1,7 +1,16 @@
+body{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  
+}
+
 .container
 {
     position: relative;
     height: 100vh;
+
 }
 .card {
     top:30%;
@@ -50,3 +59,36 @@
     top:20%;
   }
 
+.img
+{
+  height:400;
+  width: 400;
+  align-self: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+ 
+}
+
+.center-img
+{
+  padding-top: 15rem;
+}
+
+.msg
+{
+  font-size: 2rem;
+  text-align: center;
+  font-family:sans-serif;
+}
+
+.success
+{
+  color:green;
+}
+
+
+.error
+{
+  color:red;
+}
