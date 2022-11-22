@@ -140,6 +140,9 @@ app.get("/",(req,res)=>{
     res.render('login')
 })
 
+app.use('/error',(req,res)=>{
+    res.render('error')
+})
 
 // All Routes imporrted here
 app.use('/', require('./routes'));

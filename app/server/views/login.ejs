@@ -2,10 +2,38 @@
     <div class="container">
         <div class="heading">Login Page</div>
         <div class="card">
-            ID:<input type="text" class="card-input"></input>
-            SessionID: <input type="password" class="card-input"/>
-            <button class="card-btn">Submit</button>
+            ID:<input id="voterId" type="text" value="1" class="card-input"></input>
+            SessionID: <input id="sessionId" value="1" type="password" class="card-input"/>
+            <button onclick="submit()" class="card-btn">Submit</button>
         </div>
     </div>
   </body>
 </html>
+
+<script>
+    const submit = async ()=>{
+        const voterId  = document.getElementById('voterId').value;
+        const sessionId = document.getElementById('sessionId').value;
+        if(voterId=="" || sessionId==""){
+            alert("Please enter all the fields");
+            return;
+        }   
+    fetch('/auth',{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({voter_id: voterId, session_id: sessionId})
+    }).then(async (res)=>{
+        const data = await res.json()
+       if(data.success){
+           window.location.href = '/vote'
+       }else{
+           window.location.href = '/error'
+             
+       }
+    }).catch(err=>console.log(err))
+
+}
+</script>
