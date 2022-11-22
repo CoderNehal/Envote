@@ -39,7 +39,7 @@ app.get('/create-databse', (req, res) => {
 // Use this to create table
 // Create table
 app.get('/create-table', (req, res) => {
-    let sql = 'CREATE TABLE Voters1(id int, name VARCHAR(255), PRIMARY KEY(id), voted BOOLEAN)';
+    let sql = 'CREATE OR UPDATE TABLE Voters(id int, name VARCHAR(255), PRIMARY KEY(id), voted BOOLEAN)';
     db.query
         (sql, (err, result) => {
             if (err) {
@@ -73,7 +73,7 @@ app.use('/drop-table',(req,res)=>{
 
 // create parties table
 app.use('/create-partites',(req,res)=>{
-    let sql='CREATE TABLE Parties(id int, name VARCHAR(255),count int, PRIMARY KEY(id))';
+    let sql='CREATE TABLE Parties(id int, name VARCHAR(255),img VARCHAR(255),leader VARCHAR(255),count int,PRIMARY KEY(id))';
     db.query
     (sql, (err, result) => {
         if (err) {
@@ -116,7 +116,19 @@ app.use('/insert-data',(req,res)=>{
 });
 
 
-
+app.use('/insert-data-p',(req,res)=>{
+    
+    let sql='INSERT INTO Parties values('+req.body.id+',"'+req.body.name+'","'+req.body.img+'","'+req.body.leader+'",0)';
+    db.query(sql,(err,result)=>{
+        if(err)
+        {
+            console.log(err);
+            throw err
+        }
+        console.log(result);
+    })
+    res.send("Data inserted")
+});
 // tracker
 app.use('*', (req, res, next) => {
     console.log("=>", req.method, req.url);
