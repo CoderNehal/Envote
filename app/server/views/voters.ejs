@@ -1,0 +1,17 @@
+<%-include('./base.ejs') %>
+   
+    <div class="vote-container">
+    <% results.forEach(function(eachPerson){ %>
+        <div class="card1">
+
+        
+            <div class="card-title"><%= eachPerson.name%></div>
+           
+            <img class="card-img" src="<%= eachPerson.img%>">
+            <div class="card-name"><%= eachPerson.leader%></div>
+            <button class="vote-btn" value="<%= eachPerson.id%>">Vote</button>
+        </div>
+    <% }) %>
+    </div>
+</body>
+</html>

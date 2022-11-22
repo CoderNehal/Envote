@@ -2,9 +2,13 @@ const express = require('express');
 const app = express();
 
 
+//Middlewares
+const verifyToken = require('./middlewares')
+
+
 
 app.use('/auth', require('./auth'));
-app.use('/vote', require('./vote'));
+app.use('/vote',verifyToken, require('./vote'));
 
 
 

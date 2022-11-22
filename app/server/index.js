@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 
-
+//Add the static files
+app.use(express.static('public'));
 
 // dotenv
 require('dotenv').config()
 const port = 4000;
 
+app.set('view engine','ejs')
 
 // user imports
 const {db,connect} = require('./utils/db')
@@ -93,8 +95,15 @@ app.use('/create-partites',(req,res)=>{
 
 //Use this to insert the data into table
 app.use('/insert-data',(req,res)=>{
-    
-    let sql='INSERT INTO Voters values('+req.body.id+',"'+req.body.name+'",0)';
+
+    // const {name,fields} =  req.body;
+    let sql='INSERT INTO Parties values('+req.body.id+',"'+req.body.name+'","'+req.body.img+'","'+req.body.leader+'",0)';
+    // let sql =  'INSERT INTO'+ name + 'VALUES('
+    // for(let key of Object.keys(fields)){
+    //     sql+=(fielsds[key]);
+        
+    // }
+
     db.query(sql,(err,result)=>{
         if(err)
         {
@@ -126,6 +135,10 @@ app.use('*', (req, res, next) => {
     next();
 })
 
+
+app.get("/",(req,res)=>{
+    res.render('login')
+})
 
 
 // All Routes imporrted here
