@@ -11,7 +11,7 @@ body {
 }
 .card {
 	top: 30%;
-	left: 35%;
+	left: 30%;
 	display: flex;
 	padding: 2rem;
 	flex-direction: column;

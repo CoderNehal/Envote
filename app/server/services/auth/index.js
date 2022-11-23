@@ -9,8 +9,7 @@ const AuthService = {
               console.log(err);
               return false;
             }
-            console.log(result)
-            return result.length>0;
+
           });
     },
     encrypt: (voter_id) => {
