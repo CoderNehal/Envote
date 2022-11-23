@@ -2,8 +2,8 @@
     <div class="container">
         <div class="heading">Login Page</div>
         <div class="card">
-            ID:<input id="voterId" type="text" value="1" class="card-input"></input>
-            SessionID: <input id="sessionId" value="1" type="password" class="card-input"/>
+            Voter ID:<input id="voterId" type="text" value="1" class="card-input"></input>
+            Encrypted key: <input id="EncryptedKey" value="1" type="password" class="card-input"/>
             <button onclick="submit()" class="card-btn">Submit</button>
         </div>
     </div>
@@ -13,8 +13,8 @@
 <script>
     const submit = async ()=>{
         const voterId  = document.getElementById('voterId').value;
-        const sessionId = document.getElementById('sessionId').value;
-        if(voterId=="" || sessionId==""){
+        const EncryptedKey = document.getElementById('EncryptedKey').value;
+        if(voterId=="" || EncryptedKey==""){
             alert("Please enter all the fields");
             return;
         }   
@@ -24,7 +24,7 @@
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({voter_id: voterId, session_id: sessionId})
+    body: JSON.stringify({voter_id: voterId, encrypted_key: EncryptedKey})
     }).then(async (res)=>{
         const data = await res.json()
        if(data.success){
