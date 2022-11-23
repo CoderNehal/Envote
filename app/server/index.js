@@ -38,8 +38,8 @@ app.get('/create-databse', (req, res) => {
 
 // Use this to create table
 // Create table
-app.get('/create-table', (req, res) => {
-    let sql = 'CREATE OR UPDATE TABLE Voters(id int, name VARCHAR(255), PRIMARY KEY(id), voted BOOLEAN)';
+app.get('/create-elections', (req, res) => {
+    let sql = 'CREATE TABLE voter_info(id int, name VARCHAR(255), PRIMARY KEY(id))';
     db.query
         (sql, (err, result) => {
             if (err) {
@@ -115,6 +115,19 @@ app.use('/insert-data',(req,res)=>{
     res.send("Data inserted")
 });
 
+// Use this to insert the data into election table
+app.use('/insert-election',(req,res)=>{
+    const {id} =  req.body;
+ db.query("INSERT INTO election VALUES("+id+",0)",(err,result)=>{
+    if(err)
+    {
+        console.log(err);
+        throw err
+    }
+    // console.log(result);
+    return res.send("Data inserted")    
+ })
+})
 
 app.use('/insert-data-p',(req,res)=>{
     
