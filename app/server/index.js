@@ -39,7 +39,7 @@ app.get('/create-databse', (req, res) => {
 // Use this to create table
 // Create table
 app.get('/create-table', (req, res) => {
-    let sql = 'CREATE OR UPDATE TABLE Voters(id int, name VARCHAR(255), PRIMARY KEY(id), voted BOOLEAN)';
+    let sql = 'CREATE OR UPDATE TABLE Voters(id int, name VARCHAR(255), PRIMARY KEY(id), voted BOOLEAN, ADHAR_NO int)';
     db.query
         (sql, (err, result) => {
             if (err) {
@@ -140,9 +140,14 @@ app.get("/",(req,res)=>{
     res.render('login')
 })
 
+app.use('/error',(req,res)=>{
+    res.render('error')
+})
 
 // All Routes imporrted here
 app.use('/', require('./routes'));
+
+
 
 
 

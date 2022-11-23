@@ -3,10 +3,15 @@
 <div>
     <img class="img" src="/images/sm404.png">
     <div class="msg error">Ooops Something went wrong !! </div>
+    <h4 class="text-center">You will be redirected shortly...</h4>
 </div>
-<script>
-    setTimeout(()=>{
-        window.location.assign("/");
-    },3000)
-</script>
+
 </body></html>
+
+<script>
+
+    setTimeout(() => {
+        window.location.href = '/'
+    }, 3000);
+</script>
+

@@ -1,15 +1,16 @@
 const {db} = require('../../utils/db')
 const AuthService = {
-    ValidateUser: async(sql) =>{
-      console.log("inside validate user")
-        await db.query(sql, (err, result) => {
+    ValidateUser: (sql) =>{
+      // console.log("inside validate user")
+         db.query(sql, (err, result) => {
             //Id Invalid
             if (err) {
               console.log(err);
               return false;
             }
-      
-            return true;
+            console.log(result.length)
+            if(result.length) {  console.log("oppppd"); return true;}
+            return false;
           });
     }
 }
