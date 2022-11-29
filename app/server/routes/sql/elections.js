@@ -20,8 +20,9 @@ app.use('/add-voter',(req,res)=>{
     })
 })
 
-app.get('/show-table',(req,res)=>{
-    db.query("SELECT * FROM elections",(err,result)=>{
+app.post('/show-table',(req,res)=>{
+    const { name} = req.body
+    db.query("SELECT * FROM "+ name,(err,result)=>{
         if(err){
             console.log(err);
             return res.send("Error")

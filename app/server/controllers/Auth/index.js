@@ -4,85 +4,74 @@ const jwt = require('jsonwebtoken');
 const { db } = require('../../utils/db');
 const AuthController = async (req, res) => {
 	// ? Get the data from the request
-	const { voter_id, encrypted_key ,date_of_birth } = req.body;
-	// ? Validate the data
-
-	// Match
-
+	const { voter_id, encrypted_key, date_of_birth } = req.body;
 	
-	// return res.send(encrypted);
 
 	// ? Check if the voter exists
 	db.query('Select * from elections where id=' + voter_id, (err, result) => {
-		if (err) {
-			console.log(err);
-			return res.json({"success":false,"message":"User validation failed!!!"})
+		if (err) { // syntatic error
+			return res.json({ success: false, message: 'User validation failed!!!' });
 		}
-		// console.log(result);
 		// ? Check if the voter exists
 		if (result.length == 0) {
-			console.log("Ok")
 			return res.status(404).json({
 				status: 404,
+				success: false,
 				message: 'Voter not found',
 			});
 		}
-
-    // Encrypt the given string
-	  const encrypted = AuthService.encrypt(voter_id);
-
-    // return res.status(200).send(encrypted);
-
-		// ? Check if the voter has the correct key
-		if (encrypted_key !== encrypted) {
-			return res.status(400).json({
-				status: 400,
-				message: 'Voter has the wrong key',
+		const encrypted = AuthService.encrypt(voter_id, date_of_birth);
+		// return res.json({encrypted})
+		//  const dob = AuthService.decrypt(encrypted_key).date_of_birth;
+		const dob = jwt.decode(encrypted_key,'SECRET KEY').date_of_birth;
+		// console.log(data)
+		// ? check if user has entered the correct date of birth
+		if (dob != date_of_birth) {
+			return res.status(401).json({
+				status: 401,
+				success: false,
+				message: 'Invalid date of birth',
 			});
 		}
-		// AuthService.alreadyVoted(voter_id, (result) => {
-		// 	if (result) {
-		// 		return res.status(400).json({
-		// 			status: 400,
-		// 			message: 'Voter has already voted',
-		// 		});
-		// 	}
-    db.query("Select * from elections where id=" + voter_id, (err, result) => {
-      //Id Invalid
-      if (err) {
-        console.log(err);
-        return false;
-      }
-      console.log(result)
-      if(result[0].y_22===1){
-        return res.status(400).json({
-          status: 400,
-          message: 'Voter has already voted',
-        });
-      }
+		
+		// ? Check if the voter has already voted
+		db.query('Select * from elections where id=' + voter_id, (err, result) => {
+			//Id Invalid
+			if (err) {
+				return false;
+			}
+			if (result[0].y_22 === 1) {
+				return res.status(400).json({
+					status: 400,
+					success: false,
+					message: 'Voter has already voted',
+				});
+			}
 
 			// ? Generate a token
-			const token = jwt.sign({ voter_id }, 'ANOTHER SECRET', {
-				expiresIn: '1h',
-			});
-
-			// ? Check if the voter has already voted
-
-			// ? Return the token
+			
+			// ? Send the token to the voter
 
 			db.query(
 				'UPDATE elections SET y_22 = 1 WHERE id = ' + voter_id,
 				(err, result) => {
 					//Id Invalid
 					if (err) {
-						console.log(err);
-						return false;
+						return res.json({
+							success: false,
+							message: 'Voting failed',
+						
+						})
 					}
-					// console.log(result)
 				}
 			);
+			const token = jwt.sign({ voter_id ,date_of_birth }, 'ANOTHER SECRET', {
+				expiresIn: '1h',
+			});
+
 			return res.status(200).json({
 				status: 200,
+				success: true,
 				message: 'Voter authenticated',
 				token,
 			});
@@ -93,14 +82,10 @@ const AuthController = async (req, res) => {
 // if(decrypted===voter_id)
 // {
 
-//   console.log("Matched");
-
 // }else{
-//   console.log("Not Matched");
 // }
 
 //   const { session_id, voter_id } = req.body;
-//   console.log("Inside Auth Controller")
 //   // Session validation
 //   const session_isValid = true;
 
@@ -114,13 +99,10 @@ const AuthController = async (req, res) => {
 //    db.query("Select * from Voters where id=" + voter_id, (err, result) => {
 //     //Id Invalid
 //     if (err) {
-//       console.log(err);
 //       return false;
 //     }
-//     console.log()
 //     if(session_isValid && result.length>0) {
 
-//         console.log("User is valid")
 //         const token = jwt.sign(session_id + voter_id, "Secret here");
 //         res.cookie("session_token", token, {
 //           maxAge: 2.5 * 60 * 60,
