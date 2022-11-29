@@ -152,7 +152,7 @@ app.use('*', (req, res, next) => {
 
 app.get("/",(req,res)=>{
     // const {encrypted_key} = req.body;
-    const encrypted_key = 1234
+    const encrypted_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MywiZGF0ZV9vZl9iaXJ0aCI6IjIwMDItMDgtMDciLCJpYXQiOjE2Njk2OTgxNjh9.hAsnFpIRPmXiGKX6FgZTIiRaU4Y3SYSPJxwg95jH528"
     res.render('login',{encrypted_key})
 })
 

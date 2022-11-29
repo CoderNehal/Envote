@@ -12,13 +12,15 @@ const AuthService = {
 
           });
     },
-    encrypt: (voter_id) => {
-      const token  = jwt.sign(voter_id,'SECRET KEY');
+    encrypt: (voter_id,date_of_birth) => {
+      const token  = jwt.sign({voter_id,date_of_birth},'SECRET KEY');
       return token;
     },
     decrypt: (token) => {
-      const voter_id = jwt.verify(token,'SECRET KEY');
-      return voter_id;
+      const data = jwt.verify(token,'SECRET KEY');
+      console.log(data);  
+      // const {voter_id,date_of_birth} = jwt.decode(token,'SECRET KEY');
+      return {voter_id:1,date_of_birth:1};
     },
     alreadyVoted: (voter_id,cb) => {
       db.query("Select * from elections where id=" + voter_id, (err, result) => {

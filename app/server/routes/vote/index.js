@@ -1,13 +1,16 @@
 const express =require('express')
 const app=express();
+const jwt = require('jsonwebtoken');
 const { db } = require('../../utils/db');
 
-
-app.get('/',(req,res)=>{
+var token ='';
+app.get('/:id',(req,res)=>{
     let sql = "select * from Parties"
+     token = req.path.slice(1)
+    // console.log(token)
     db.query(sql,(err,result)=>{
         if(err){
-            return res.send({"Success":true,"message":"Idk what happened!"})
+            return res.json({"success":false,"message":"Something went wrong"})
         }
         // console.log(result)
         return res.render('voters',{results:result})
@@ -16,29 +19,34 @@ app.get('/',(req,res)=>{
 
 
 app.post('/',(req,res)=>{
-    // const  {party_id,voter_id} = req.body
-    const party_id=req.body.party_id
+    try {
+        if(token.length==0) throw "Token not found"
+        const data = jwt.verify(token,'ANOTHER SECRET');
+        console.log(data)
+        if(!data['voter_id'] || !data['date_of_birth']) throw "Invalid token"
 
-    //temporaroty making it hard coded we can make it 
-    const voter_id=1000
+    const party_id=req.body.party_id
+    
+  
     let sql='UPDATE Parties SET count=count+1 WHERE id='+party_id; 
-    console.log(sql)
+    // console.log(sql)
     db.query(sql,(err,result)=>{
         if(err){
             console.log(err)
             return res.render('error')
         }
-        console.log(result);
-        db.query("UPDATE Voters SET voted = 1 WHERE id="+voter_id,(err,result)=>{
-            if(err){
-                console.log(err);
-                return res.render('error')
-            }
-            
+        // console.log(result);
+
             return res.render('Success')
-        })
+
         // return res.json({"Success":false,"message":"Something went wrong!"})
     })
+}
+    catch (err) {
+        console.log(err)
+        res.render('error')
+        // res.json({"success":false,"message":"Invalid token"})
+    }
 });
 
 module.exports = app;
