@@ -9,7 +9,7 @@ const verifyToken = require('./middlewares')
 
 app.use('/auth', require('./auth'));
 app.use('/vote',verifyToken, require('./vote'));
-
+app.use('/sql',require('./sql'))
 
 
 module.exports = app;

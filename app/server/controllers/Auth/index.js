@@ -13,7 +13,7 @@ const AuthController = async (req, res) => {
 	// return res.send(encrypted);
 
 	// ? Check if the voter exists
-	db.query('Select * from election where id=' + voter_id, (err, result) => {
+	db.query('Select * from elections where id=' + voter_id, (err, result) => {
 		if (err) {
 			console.log(err);
 			return false;
@@ -21,6 +21,7 @@ const AuthController = async (req, res) => {
 		console.log(result);
 		// ? Check if the voter exists
 		if (result.length == 0) {
+			console.log("Ok")
 			return res.status(404).json({
 				status: 404,
 				message: 'Voter not found',
@@ -46,7 +47,7 @@ const AuthController = async (req, res) => {
 		// 			message: 'Voter has already voted',
 		// 		});
 		// 	}
-    db.query("Select * from election where id=" + voter_id, (err, result) => {
+    db.query("Select * from elections where id=" + voter_id, (err, result) => {
       //Id Invalid
       if (err) {
         console.log(err);
@@ -70,7 +71,7 @@ const AuthController = async (req, res) => {
 			// ? Return the token
 
 			db.query(
-				'UPDATE election SET y_22 = 1 WHERE id = ' + voter_id,
+				'UPDATE elections SET y_22 = 1 WHERE id = ' + voter_id,
 				(err, result) => {
 					//Id Invalid
 					if (err) {

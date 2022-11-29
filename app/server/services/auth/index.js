@@ -21,7 +21,7 @@ const AuthService = {
       return voter_id;
     },
     alreadyVoted: (voter_id,cb) => {
-      db.query("Select * from election where id=" + voter_id, (err, result) => {
+      db.query("Select * from elections where id=" + voter_id, (err, result) => {
         //Id Invalid
         if (err) {
           console.log(err);
