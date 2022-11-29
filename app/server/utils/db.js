@@ -3,7 +3,7 @@ const password =  process.env.password;
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: "nehalughade",
+    password: "",
     database: 'voting'
 });
 

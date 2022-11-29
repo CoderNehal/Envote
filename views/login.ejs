@@ -28,10 +28,7 @@
         const dob = document.getElementById('dob').value;
 
         // console.log(name);
-        if(name.length>255){
-            alert("Please enter valid name length between 1-255");
-            return;
-        }   
+        
     await fetch('/add-voter',{
     method: 'POST',
     headers: {
@@ -39,18 +36,26 @@
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({id: id, name:name,dob:dob,location:location,gender:gender})
-    }).then((res)=>{
-        // const data = await res.json()
-        console.log("sds",res) 
-    //    if(data.success){
-    //        window.location.href = '/vote'
-    //    }else{
-        // console.log("data failure: ",data.failure);
-           window.location.href = '/add-voter'
-             
-    //    }
-    }).catch(err=>console.log(err))
+    }).then(async res=>{
+        const ans=await res.json();
+        if(ans.success)
+        {
+            alert("Data added successfully...!!!")
+        }
+        else 
+        {
+            const errno=ans.failure.errno;
+            if(errno==1406)
+                alert("Enter valid data...!!!");
+            else
+                alert("Enter valid voter id...!!!!")
+            // console.log(ans.failure.errno);
+        }
+    
+    }).catch(err=>console.log(err));
 
+    window.location.href="/add-voter";
+    
 }
 
 

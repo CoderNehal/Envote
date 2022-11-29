@@ -30,22 +30,20 @@ app.post('/add-voter',(req,res)=>{
     // console.log(gender)
     const q="INSERT INTO voter_info values("+id+",'"+name+"','"+location+"','"+dob+"','"+gender+"','"+finegrprint+"')";
     db.query(q,(err,result)=>{
-        // console.log(err)
-        // console.log(q);
-            if(err)
-                return res.json({"failure":err})
-
-            return res.json({"success":result})
+        
+        if(err)
+            res.json({"failure":err});
+        else res.json({"success":result})
+           
         })
-    //console.log(q)
-
-    // return res.json({"gt":false})
+        
 })
 
 
 
 app.post('/api/validate',(req,res)=>{
     const {fingerprint} = encryption(req.body);
+    // const {dob}=req.body.dob;
     const sql = "SELECT * FROM voter_info WHERE finegrprint = '" + fingerprint+"'";
     db.query(sql,(err,result)=>{
         if(err){
@@ -53,7 +51,7 @@ app.post('/api/validate',(req,res)=>{
             return res.json({"success":false,"message":"User validation failed!!!"})
         }
         if(result.length){
-            const token = jwt.sign(result[0].id,'SECRET_KEY')
+            const token = jwt.sign(result[0].id,result[0].dob,'SECRET_KEY')
             return res.json({"success":true,"encrypted_token":token});
             // console.log(result[0].id)
         }
@@ -61,6 +59,13 @@ app.post('/api/validate',(req,res)=>{
         return res.json({"success":false,"message":"User validation failed!!!"})
     })
 })
+
+
+//Main page of the website
+app.use("/",(req,res)=>{
+    res.render("home");
+})
+
 
 app.listen(5000,(req,res)=>{
     console.log("Connected to port 5000")
