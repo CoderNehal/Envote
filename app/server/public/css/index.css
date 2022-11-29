@@ -10,10 +10,10 @@ body {
 	height: 100vh;
 }
 .card {
-	top: 30%;
-	left: 30%;
+	top: 20%;
+	left: 37%;
 	display: flex;
-	padding: 2rem;
+	padding: 1rem;
 	flex-direction: column;
 	position: absolute;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -26,7 +26,7 @@ body {
 
 .card-input {
 	padding: 1rem;
-	width: 30rem;
+	width: 17rem;
 	margin: 1rem;
 	font-size: 1rem;
 }
@@ -38,15 +38,15 @@ body {
 	padding: 0.5rem;
 	align-self: center;
 	color: white;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	margin-top: 1rem;
 }
 
 .heading {
 	position: absolute;
-	left: 47%;
+	left: 43%;
 	font-size: 2rem;
-	top: 20%;
+	top: 10%;
 }
 
 .img {
