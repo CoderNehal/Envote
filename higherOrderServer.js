@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken')
 const {db,connect} = require('./app/server/utils/db');
 const { encrypt } = require('./app/server/services/auth');
 const encryption = require('./encryption');
+// dotenv
+require('dotenv').config()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -25,12 +27,14 @@ app.post('/add-voter',(req,res)=>{
     const dob=req.body.dob
     const gender=req.body.gender
     const finegrprint=encryption(req.body.fingerprint)
-    
+    // console.log(gender)
     const q="INSERT INTO voter_info values("+id+",'"+name+"','"+location+"','"+dob+"','"+gender+"','"+finegrprint+"')";
     db.query(q,(err,result)=>{
         // console.log(err)
+        // console.log(q);
             if(err)
                 return res.json({"failure":err})
+
             return res.json({"success":result})
         })
     //console.log(q)
@@ -58,7 +62,6 @@ app.post('/api/validate',(req,res)=>{
     })
 })
 
-
-app.listen(3000,(req,res)=>{
-    console.log("Connected to port 3000")
+app.listen(5000,(req,res)=>{
+    console.log("Connected to port 5000")
 })

@@ -150,9 +150,10 @@ app.use('*', (req, res, next) => {
     next();
 })
 
-
 app.get("/",(req,res)=>{
-    res.render('login')
+    // const {encrypted_key} = req.body;
+    const encrypted_key = 1234
+    res.render('login',{encrypted_key})
 })
 
 app.use('/error',(req,res)=>{

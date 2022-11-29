@@ -3,7 +3,8 @@
         <div class="heading">Login Page</div>
         <div class="card">
             Voter ID:<input id="voterId" type="text" value="1" class="card-input"></input>
-            Encrypted key: <input id="EncryptedKey" value="1" type="password" class="card-input"/>
+            Date of Birth:<input id="dob" type="date"  class="card-input"></input>
+            Encrypted key: <input id="EncryptedKey" value="<%= locals.encrypted_key ? encrypted_key: '' %>" type="password" class="card-input" readonly disabled/>
             <button onclick="submit()" class="card-btn">Submit</button>
         </div>
     </div>
@@ -11,9 +12,11 @@
 </html>
 
 <script>
+    
     const submit = async ()=>{
         const voterId  = document.getElementById('voterId').value;
         const EncryptedKey = document.getElementById('EncryptedKey').value;
+        const dob = document.getElementById('dob').value;
         if(voterId=="" || EncryptedKey==""){
             alert("Please enter all the fields");
             return;
@@ -24,7 +27,7 @@
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({voter_id: voterId, encrypted_key: EncryptedKey})
+    body: JSON.stringify({voter_id: voterId,date_of_birth:dob, encrypted_key: EncryptedKey})
     }).then(async (res)=>{
         const data = await res.json()
        if(data.success){

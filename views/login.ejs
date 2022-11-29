@@ -20,7 +20,7 @@
 </div>
 <script>
     const myfunction = async ()=>{
-        // console.log("ahjh")
+         console.log("OP OP")
         const id  = document.getElementById('id').value;
         const name = document.getElementById('name').value;
         const location = document.getElementById('location').value;
@@ -39,9 +39,9 @@
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({id: id, name:name,dob:dob,location:location,gender:gender})
-    }).then( async (res)=>{
-        const data = await res.json()
-        console.log("sds",data) 
+    }).then((res)=>{
+        // const data = await res.json()
+        console.log("sds",res) 
     //    if(data.success){
     //        window.location.href = '/vote'
     //    }else{

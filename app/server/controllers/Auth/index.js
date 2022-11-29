@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { db } = require('../../utils/db');
 const AuthController = async (req, res) => {
 	// ? Get the data from the request
-	const { voter_id, encrypted_key } = req.body;
+	const { voter_id, encrypted_key ,date_of_birth } = req.body;
 	// ? Validate the data
 
 	// Match
@@ -16,9 +16,9 @@ const AuthController = async (req, res) => {
 	db.query('Select * from elections where id=' + voter_id, (err, result) => {
 		if (err) {
 			console.log(err);
-			return false;
+			return res.json({"success":false,"message":"User validation failed!!!"})
 		}
-		console.log(result);
+		// console.log(result);
 		// ? Check if the voter exists
 		if (result.length == 0) {
 			console.log("Ok")
