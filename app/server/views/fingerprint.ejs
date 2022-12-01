@@ -1,0 +1,40 @@
+<%- include('./base.ejs') %>
+
+<div class="container">
+    
+    <div class="login" id="">
+        <img src="https://cdn-icons-png.flaticon.com/512/1231/1231052.png" alt="" class="img">
+        <input class="form-ele" type="text" name="fingerprint" id="fingerprint" required>
+        <button class="form-btn" name="" onclick="myfunction()">Submit</button>
+    </div>
+</div>
+
+</body>
+<script>
+    
+    const myfunction=async ()=>{
+        const fingerprint=document.getElementById("fingerprint").value;
+        
+        await fetch("http://localhost:5000/api/validate",{
+            method:"POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({"fingerprint":fingerprint})
+
+        }).then(async (res)=>{
+            // if(res.success)
+            //    {
+            //          window.location.href="http://localhost:4000/"+res.encrypted_token;
+            // }
+            const data = await res.json();
+             console.log(data);
+
+        })
+    //   const d=document.getElementById("fingerprint");
+    //   d.submit();
+        
+    }
+</script>
+</html>

@@ -1,34 +1,46 @@
 <%- include('./base.ejs') %>
 <div class="container">
     <div class="heading">Register user</div>
-<div class="login" >
+<form class="login" id="myform" >
     Enter voter id
     <input class="form-ele" type="text" id="id" required>
      Enter name
     <input class="form-ele" type="text" id="name" required>
      Enter location
-    <input class="form-ele" type="text" id="location" required>
+    <input class="form-ele" type="text" id="location"  required>
      Enter Date of birth
-    <input class="form-ele" type="date" id="dob" required>
+    <input class="form-ele"  type="date" id="dob" required>
      Select gender
     <select class="form-ele" id="gender" required>
         <option value="male">Male</option>
         <option value="female">Female</option>
         <option value="other">other</option>
     </select>
-    <button class="form-btn" onclick=myfunction()>Add</button>
-</div>
+    Enter fingerprint string:
+    <input type="text" class="form-ele" id="fingerprint" required>
+    <button class="form-btn" type="button" onclick=myfunction()>Add</button>
+</form>
 </div>
 <script>
+   let TODAY = new Date();
+
+let EIGHTEEN_YEARS_BACK = new Date((new Date(TODAY).getFullYear() - 18) +"-" +new Date(TODAY).getMonth() + "/" + new Date(TODAY).getDate() );
+// console.log(new Date(EIGHTEEN_YEARS_BACK))
+    // console.log(EIGHTEEN_YEARS_BACK.toISOString())
+    document.getElementById("dob").max = EIGHTEEN_YEARS_BACK.toISOString().split("T")[0];
     const myfunction = async ()=>{
-         console.log("OP OP")
+         console.log("hello")
         const id  = document.getElementById('id').value;
         const name = document.getElementById('name').value;
         const location = document.getElementById('location').value;
         const gender = document.getElementById('gender').value;
         const dob = document.getElementById('dob').value;
-
+        const fingerprint=document.getElementById('fingerprint').value;
         // console.log(name);
+
+
+        // isssue
+       console.log(dob);
         
     await fetch('/add-voter',{
     method: 'POST',
@@ -36,7 +48,7 @@
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({id: id, name:name,dob:dob,location:location,gender:gender})
+    body: JSON.stringify({id: id, name:name,dob:dob,location:location,gender:gender,fingerprint:fingerprint})
     }).then(async res=>{
         const ans=await res.json();
         if(ans.success)
@@ -49,14 +61,14 @@
             if(errno==1406)
                 alert("Enter valid data...!!!");
             else
-                alert("Enter valid voter id...!!!!")
+                alert("Enter valid data...!!!!")
             // console.log(ans.failure.errno);
         }
     
     }).catch(err=>console.log(err));
 
-    window.location.href="/add-voter";
-    
+    // window.location.href="/add-voter";
+    // document.getElementById("myform").submit();
 }
 
 

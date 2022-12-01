@@ -1,0 +1,78 @@
+<%- include('base.ejs') %>
+<div class="results">
+<div class="canva">
+<canvas id="myChart" ></canvas></div>
+<div class="canva">
+    <canvas id="section"></canvas>
+</div>
+<div class="canva">
+    <canvas id="gender"></canvas>
+</div>
+</div>
+<script>
+    (async function(){
+        
+        //
+        let ans= await api_call("/api/results")
+        if(ans.failure) window.location="/error"
+        chart('myChart','bar',ans.success.map(r=>r.name),ans.success.map(r=>r.count))
+        ans= await api_call("/api/gender");
+        chart('gender','pie',["Male","Female"],ans.data);
+        // chart('section','pie',ans.success.map(r=>r.name),ans.success.map(r=>r.count))
+    })();
+    
+    
+    function chart(name,types,label,datas)
+    {
+        console.log(name,types,label);
+        const ctx = document.getElementById(name);
+
+        new Chart(ctx, {
+        type: types,
+        data: {
+        labels: label,
+        datasets: [{
+            label: '# of Votes',
+            data: datas,
+            
+            barThickness: 70,
+        }]
+        },
+        options: {
+        scales: {
+            
+        },
+        layout:{
+            
+        }
+        }
+    });
+    }
+    async function api_call(url){
+        // console.log(url)
+      const data =  await fetch(url,{
+        method:'GET',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        
+    })
+    const d = await data.json()
+    return d;
+}
+   
+    
+     
+
+       
+
+
+    
+
+   
+   
+   
+   
+</script>
+</div>

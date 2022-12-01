@@ -3,7 +3,6 @@
     margin:0;
     padding:0;
     width: 100vw;
-	/* height: 100vh; */
     box-sizing: border-box;
     
 	overflow: hidden;
@@ -24,7 +23,7 @@ body{
     position: absolute;
     top:15%;
     left:39.5%;
-    height: 50vh;
+    height: auto;
     width: 25vw;
     font-size: 1.3rem;
     align-self: center;
@@ -118,15 +117,21 @@ body{
  {
     
     padding: .5rem 1rem;
-    
+    text-decoration: none;
+    align-self: center ;
     background-image: linear-gradient(to right,#eb8334,#eb7434);
     border-radius: 1.5rem;
     border: none;
     font-size: 1rem;
     color:white;
     width:70%;
+    margin:auto;
     text-align: center;
-    margin: auto;
+    
+}
+.card-btn a{
+    text-decoration: none;
+    color:white;
 }
  .img{
     
@@ -139,4 +144,20 @@ body{
     margin-bottom: 1.5rem;
     width: 70%;
     background-color: transparent;
+ }
+
+
+ /* Results page design */
+ .results
+ {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+ }
+ .canva
+ {
+    position: relative;
+    width: 40vw;
+    height:50vh
  }
