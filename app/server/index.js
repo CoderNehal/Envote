@@ -36,8 +36,9 @@ app.get("/",(req,res)=>{
 
 app.get("/login",(req,res)=>{
     // res.render("fingerprint");
-    const encrypted_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ1NiwiZG9iIjoiMjAwNC0xMC0wN1QxODozMDowMC4wMDBaIiwiaWF0IjoxNjY5ODg3NDcwfQ.5-cf2jbaYS2iiW2-eo3_tv99x7zd1DTw1zvsNaqRsxo"
-    const token =  req.query.token;
+    // const encrypted_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ1NiwiZG9iIjoiMjAwNC0xMC0wN1QxODozMDowMC4wMDBaIiwiaWF0IjoxNjY5ODg3NDcwfQ.5-cf2jbaYS2iiW2-eo3_tv99x7zd1DTw1zvsNaqRsxo"
+    const encrypted_key =  req.url.split("?")[1];
+    console.log(encrypted_key)
     return res.render("login",{encrypted_key})
 })
 app.use('/error',(req,res)=>{

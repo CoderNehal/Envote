@@ -23,8 +23,11 @@ const AuthController = async (req, res) => {
 		const encrypted = AuthService.encrypt(voter_id, date_of_birth);
 		// return res.json({encrypted})
 		//  const dob = AuthService.decrypt(encrypted_key).date_of_birth;
-		const dob = jwt.decode(encrypted_key,'SECRET KEY').date_of_birth;
-		// console.log(data)
+		const dob = jwt.decode(encrypted_key,'SECRET KEY').dob.split('T')[0];
+		console.log(dob)
+		if(!dob){
+			return res.json({ success: false, message: 'Incorrect key' });
+		}
 		// ? check if user has entered the correct date of birth
 		if (dob != date_of_birth) {
 			return res.status(401).json({
@@ -33,27 +36,28 @@ const AuthController = async (req, res) => {
 				message: 'Invalid date of birth',
 			});
 		}
-		
+		console.log(result[0]);
 		// ? Check if the voter has already voted
 		db.query('Select * from elections where id=' + voter_id, (err, result) => {
 			//Id Invalid
 			if (err) {
+				console.log(err);
 				return false;
 			}
-			if (result[0].y_22 === 1) {
+			if (result[0].y_2022 === 1) {
 				return res.status(400).json({
 					status: 400,
 					success: false,
 					message: 'Voter has already voted',
 				});
 			}
-
+			console.log("Ithhh parayant")
 			// ? Generate a token
 			
 			// ? Send the token to the voter
 
 			db.query(
-				'UPDATE elections SET y_22 = 1 WHERE id = ' + voter_id,
+				'UPDATE elections SET y_2022 = 1 WHERE id = ' + voter_id,
 				(err, result) => {
 					//Id Invalid
 					if (err) {

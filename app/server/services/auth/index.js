@@ -13,6 +13,7 @@ const AuthService = {
           });
     },
     encrypt: (voter_id,date_of_birth) => {
+      
       const token  = jwt.sign({voter_id,date_of_birth},'SECRET KEY');
       return token;
     },

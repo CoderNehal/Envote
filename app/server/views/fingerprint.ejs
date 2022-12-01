@@ -2,7 +2,7 @@
 
 <div class="container">
     
-    <div class="login" id="">
+    <div class="login" id="" >
         <img src="https://cdn-icons-png.flaticon.com/512/1231/1231052.png" alt="" class="img">
         <input class="form-ele" type="text" name="fingerprint" id="fingerprint" required>
         <button class="form-btn" name="" onclick="myfunction()">Submit</button>
@@ -24,11 +24,13 @@
             body:JSON.stringify({"fingerprint":fingerprint})
 
         }).then(async (res)=>{
-            // if(res.success)
-            //    {
-            //          window.location.href="http://localhost:4000/"+res.encrypted_token;
-            // }
             const data = await res.json();
+            if(data.success)
+               {
+                console.log("success");
+                     window.location.href="http://localhost:4000/login/?"+data.encrypted_token;
+                }
+            
              console.log(data);
 
         })

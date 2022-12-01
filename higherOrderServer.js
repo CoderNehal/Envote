@@ -103,7 +103,7 @@ let young=0,mid_age=0,old_age=0;
 })
 
 app.post('/api/validate',(req,res)=>{
-
+    console.log("Fngerprint",req.body.fingerprint)
     const fingerprint = encryption(req.body.fingerprint);
     console.log(fingerprint)
     
