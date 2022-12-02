@@ -8,12 +8,15 @@ const AuthController = async (req, res) => {
 	
 
 	// ? Check if the voter exists
+
 	db.query('Select * from elections where id=' + voter_id, (err, result) => {
 		if (err) { // syntatic error
 			return res.json({ success: false, message: 'User validation failed!!!' });
 		}
 		// ? Check if the voter exists
-		if (result.length == 0) {
+		const id = jwt.verify(encrypted_key, 'SECRET KEY').id;
+		console.log(voter_id);
+		if (result.length == 0 || !id || result[0].id!==id) {
 			return res.status(404).json({
 				status: 404,
 				success: false,

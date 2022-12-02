@@ -42,7 +42,7 @@ app.get("/login",(req,res)=>{
     return res.render("login",{encrypted_key})
 })
 app.use('/error',(req,res)=>{
-    res.render('error')
+    res.render('error',msg)
 })
 
 // All Routes imporrted here

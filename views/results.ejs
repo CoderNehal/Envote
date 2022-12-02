@@ -18,6 +18,8 @@
         chart('myChart','bar',ans.success.map(r=>r.name),ans.success.map(r=>r.count))
         ans= await api_call("/api/gender");
         chart('gender','pie',["Male","Female"],ans.data);
+        ans=await api_call("/api/age");
+        chart('section','pie',["young","mid-age","old age"],ans.data)
         // chart('section','pie',ans.success.map(r=>r.name),ans.success.map(r=>r.count))
     })();
     
