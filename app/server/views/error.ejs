@@ -2,7 +2,11 @@
 
 <div>
     <img class="img" src="/images/sm404.png">
-    <div class="msg error">Ooops Something went wrong !! </div>
+    <% if(ms){ %>
+    <div class="msg error"> <%=ms %></div>
+    <% } else{ %>
+    <div class="msg error"> Something went wrong!</div>
+    <% } %>
     <h4 class="text-center">You will be redirected shortly...</h4>
 </div>
 

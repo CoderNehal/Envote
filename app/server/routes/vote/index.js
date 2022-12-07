@@ -23,8 +23,18 @@ app.post('/',(req,res)=>{
         if(token.length==0) throw "Token not found"
         const data = jwt.verify(token,'ANOTHER SECRET');
         console.log(data)
-        if(!data['voter_id'] || !data['date_of_birth']) throw "Invalid token"
+        if(!data['voter_id'] || !data['date_of_birth']) {
+           return res.render('error',{ms:"Invalid data"})
+            // throw "Invalid token"
+        
+        }
+        db.query("SELECT * FROM elections WHERE id="+data['voter_id'],(err,result)=>{
+            // if(err) throw "Something went wrong"
+            // if(result.length==0) throw "No such voter found"
+            // if(result[0]['date_of_birth']!=data['date_of_birth']) throw "Invalid token"
+            if(result[0]['y_2022']==1) return res.render('error',{ms:"You have already voted"})
 
+        })
     const party_id=req.body.party_id
     
   

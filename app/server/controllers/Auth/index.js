@@ -5,15 +5,18 @@ const { db } = require('../../utils/db');
 const AuthController = async (req, res) => {
 	// ? Get the data from the request
 	const { voter_id, encrypted_key, date_of_birth } = req.body;
-	
+
 
 	// ? Check if the voter exists
+
 	db.query('Select * from elections where id=' + voter_id, (err, result) => {
 		if (err) { // syntatic error
 			return res.json({ success: false, message: 'User validation failed!!!' });
 		}
 		// ? Check if the voter exists
-		if (result.length == 0) {
+		const id = jwt.verify(encrypted_key, 'SECRET KEY').id;
+		console.log(voter_id);
+		if (result.length == 0 || !id || result[0].id !== id) {
 			return res.status(404).json({
 				status: 404,
 				success: false,
@@ -23,9 +26,10 @@ const AuthController = async (req, res) => {
 		const encrypted = AuthService.encrypt(voter_id, date_of_birth);
 		// return res.json({encrypted})
 		//  const dob = AuthService.decrypt(encrypted_key).date_of_birth;
-		const dob = jwt.decode(encrypted_key,'SECRET KEY').dob.split('T')[0];
+		console.log(jwt.decode(encrypted_key, 'SECRET KEY'))
+		const dob = jwt.decode(encrypted_key, 'SECRET KEY').dob.split('T')[0];
 		console.log(dob)
-		if(!dob){
+		if (!dob) {
 			return res.json({ success: false, message: 'Incorrect key' });
 		}
 		// ? check if user has entered the correct date of birth
@@ -53,7 +57,7 @@ const AuthController = async (req, res) => {
 			}
 			console.log("Ithhh parayant")
 			// ? Generate a token
-			
+
 			// ? Send the token to the voter
 
 			db.query(
@@ -64,12 +68,12 @@ const AuthController = async (req, res) => {
 						return res.json({
 							success: false,
 							message: 'Voting failed',
-						
+
 						})
 					}
 				}
 			);
-			const token = jwt.sign({ voter_id ,date_of_birth }, 'ANOTHER SECRET', {
+			const token = jwt.sign({ voter_id, date_of_birth }, 'ANOTHER SECRET', {
 				expiresIn: '1h',
 			});
 

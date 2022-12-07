@@ -22,6 +22,8 @@ connect();
 let year=new Date().getFullYear();
 let result=[]
 let statistics
+let date = new Date();
+
 app.get('/add-voter',(req,res)=>{
     
     
@@ -45,10 +47,13 @@ app.post('/add-voter',(req,res)=>{
             res.json({"failure":err});
         else {
             const q1="INSERT INTO elections values("+id+",0)";
+            // const q1="INSERT INTO elections values("+id+",0)";
             db.query(q1,(er,re)=>{
                 if(er)
+
                return res.json({"failure":er})
                 return res.json({"success":result})
+
             })
             
         }
@@ -83,23 +88,56 @@ app.use("/api/results",(req,res)=>{
 });
 
 app.use("/api/gender",(req,res)=>{
-    let c=0,k=result.length;
+    let c=0,c1=0;
     //console.log(result)
      result.filter((item)=> 
     {
-        if(item.gender=='M' || item.gender=='Male' || item.gender=='male')
-            c++;
+        if(item.y_2022==1)
+        {
+            if(item.gender=='M' || item.gender=='Male' || item.gender=='male')
+                c++;
+            else
+                c1++;
+        }
+       
 
     })
     // console.log(c);
-    return res.json({"data":[c,k-c]});
+    return res.json({"data":[c,c1]});
 })
-
-
-app.use("/api/year",(req,res)=>{
+function dateDiffInDays(a, b) {
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+app.use("/api/age",(req,res)=>{
 let young=0,mid_age=0,old_age=0;
-})
 
+result.filter((r)=>{
+    
+    let d=r.DOB
+    
+
+    // console.log("days",diffDays)
+    if(r.y_2022==0 || r.y_2022==1)
+    {
+        var m = dateDiffInDays(r.DOB,date) /365;
+
+        if(m<=20)
+            young++;
+        else if(m<=30)
+            mid_age++;
+        else
+            old_age++;
+    }
+});
+
+return res.json({"data":[young,mid_age,old_age]})
+
+})
 
 app.post('/api/validate',(req,res)=>{
     console.log("Fngerprint",req.body.fingerprint)
@@ -109,13 +147,14 @@ app.post('/api/validate',(req,res)=>{
     const sql = "SELECT * FROM voter_info WHERE fingerprint = '" + fingerprint+"'";
     db.query(sql,(err,result)=>{
         if(err){
-            console.log(err)
+            console.log("error:",err)
             return res.json({"failure":true,"message":"UserOK failed!!!"})
         }
-        console.log(result)
+        console.log("results:",result)
         if(result.length){
             const id  = result[0].id;
             const dob = result[0].DOB;
+            console.log("HOD: ",dob)
             const token = jwt.sign({id,dob},'SECRET KEY')
             return res.json({"success":true,"encrypted_token":token});
             // console.log(result[0].id)

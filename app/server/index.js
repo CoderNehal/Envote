@@ -61,8 +61,36 @@ app.get("/login", (req, res) => {
     console.log(encrypted_key)
     return res.render("login", { encrypted_key })
 })
-app.use('/error', (req, res) => {
-    res.render('error')
+
+app.use('/error',(req,res)=>{
+    res.render('error',msg)
+
+})
+app.post("/upload", upload.single('file'), (req, res) => {
+    console.log("Hitting it")
+    // res.json({
+    //     success: 1,
+    //     profile_url: `http://localhost:4000/upload/images/${req.file.filename}`
+    // })
+    imageHash(`http://localhost:4000/upload/images/${req.file.filename}`, 16, true, (error, data) => {
+        if (error) throw error;
+        console.log(data);
+        var filename = __dirname + `/public/upload/images/${req.file.filename}`;
+        var tempFile = fs.openSync(filename, 'r');
+        fs.closeSync(tempFile);
+
+        fs.unlinkSync(filename);
+        return res.json(data)
+    });
+})
+app.use('/imghash', (req, res) => {
+    console.log(req.body)
+    imageHash("https://cdn-icons-png.flaticon.com/512/1231/1231052.png", 16, true, (error, data) => {
+        if (error) throw error;
+        console.log(data);
+
+        return res.send(data)
+    });
 })
 app.post("/upload", upload.single('file'), (req, res) => {
     console.log("Hitting it")

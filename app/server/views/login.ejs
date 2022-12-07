@@ -16,7 +16,11 @@
     const submit = async ()=>{
         const voterId  = document.getElementById('voterId').value;
         const EncryptedKey = document.getElementById('EncryptedKey').value;
-        const dob = document.getElementById('dob').value;
+        let dob = document.getElementById('dob').value;
+        let db = new Date(dob);
+        db.setDate(db.getDate() - 1);
+        console.log(db.toISOString().split('T')[0])
+        // const new_date=new Date(dob.getFullYear(),dob.getMonth(),dob.getDay()-1);
         if(voterId=="" || EncryptedKey==""){
             alert("Please enter all the fields");
             return;
@@ -27,7 +31,7 @@
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({voter_id: voterId,date_of_birth:dob, encrypted_key: EncryptedKey})
+    body: JSON.stringify({voter_id: voterId,date_of_birth:db.toISOString().split('T')[0], encrypted_key: EncryptedKey})
     }).then(async (res)=>{
         const data = await res.json()
        if(data.success){
