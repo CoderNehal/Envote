@@ -5,7 +5,8 @@ const cors = require('cors');
 const { imageHash } = require('image-hash');
 const multer = require("multer");
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs'); 
+const jwt = require('jsonwebtoken');
 //Add the static files
 app.use(express.static('public'));
 
@@ -58,12 +59,13 @@ app.get("/login", (req, res) => {
     // res.render("fingerprint");
     // const encrypted_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ1NiwiZG9iIjoiMjAwNC0xMC0wN1QxODozMDowMC4wMDBaIiwiaWF0IjoxNjY5ODg3NDcwfQ.5-cf2jbaYS2iiW2-eo3_tv99x7zd1DTw1zvsNaqRsxo"
     const encrypted_key = req.url.split("?")[1];
-    console.log(encrypted_key)
+    const decode = jwt.verify(encrypted_key, 'SECRET KEY');
+    console.log(decode)
     return res.render("login", { encrypted_key })
 })
 
-app.use('/error',(req,res)=>{
-    res.render('error',msg)
+app.use('/error', (req, res) => {
+    res.render('error', msg)
 
 })
 app.post("/upload", upload.single('file'), (req, res) => {

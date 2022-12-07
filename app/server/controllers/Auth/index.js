@@ -60,19 +60,7 @@ const AuthController = async (req, res) => {
 
 			// ? Send the token to the voter
 
-			db.query(
-				'UPDATE elections SET y_2022 = 1 WHERE id = ' + voter_id,
-				(err, result) => {
-					//Id Invalid
-					if (err) {
-						return res.json({
-							success: false,
-							message: 'Voting failed',
-
-						})
-					}
-				}
-			);
+			
 			const token = jwt.sign({ voter_id, date_of_birth }, 'ANOTHER SECRET', {
 				expiresIn: '1h',
 			});

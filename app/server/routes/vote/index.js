@@ -40,10 +40,11 @@ app.post('/',(req,res)=>{
   
     let sql='UPDATE Parties SET count=count+1 WHERE id='+party_id; 
     // console.log(sql)
+    const voter_id = data['voter_id']
     db.query(sql,(err,result)=>{
         if(err){
             console.log(err)
-            return res.render('error')
+            return res.render('error',{ms:"Something went wrong"})
         }
         // console.log(result);
 
@@ -51,10 +52,22 @@ app.post('/',(req,res)=>{
 
         // return res.json({"Success":false,"message":"Something went wrong!"})
     })
+    db.query(
+        'UPDATE elections SET y_2022 = 1 WHERE id = ' + voter_id,
+        (err, result) => {
+            //Id Invalid
+            if (err) {
+                return res.json({
+                    success: false,
+                    message: 'Voting failed',
+                })
+            }
+        }
+    );
 }
     catch (err) {
         console.log(err)
-        res.render('error')
+        res.render('error',{"ms":"Invalid token"})
         // res.json({"success":false,"message":"Invalid token"})
     }
 });
