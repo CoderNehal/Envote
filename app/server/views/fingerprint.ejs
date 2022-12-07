@@ -3,25 +3,39 @@
 <div class="container">
     
     <div class="login" id="" >
+        <form >
         <img src="https://cdn-icons-png.flaticon.com/512/1231/1231052.png" alt="" class="img">
-        <input class="form-ele" type="text" name="fingerprint" id="fingerprint" required>
-        <button class="form-btn" name="" onclick="myfunction()">Submit</button>
+        <!-- <input class="form-ele" type="text" name="fingerprint" id="fingerprint" required> -->
+        <input type="file" accept="image/*" name="file" id="file">
+        <button class="form-btn" name="" type="submit">Submit</button>
+    </form>
+    <p id="error" style="text-align:center ; color:red; visibility:hidden;">Invalid fingerprint! try again</p>
     </div>
 </div>
 
 </body>
 <script>
     
-    const myfunction=async ()=>{
-        const fingerprint=document.getElementById("fingerprint").value;
-        
-        await fetch("http://localhost:5000/api/validate",{
+    const form  = document.querySelector('form')
+    form.addEventListener('submit',async (e)=>{
+        e.preventDefault();
+        // const fingerprint=document.getElementById("fingerprint").value;
+        const file = document.getElementById('file');
+        const form = document.querySelector('form');
+        const formdata = new FormData(form);
+        const data = await  fetch("http://localhost:4000/upload",{
+            method:"POST",
+            body:formdata
+       })
+       const hashed = await data.json();
+       console.log("success!!!!!! === ",hashed);
+       await fetch("http://localhost:5000/api/validate",{
             method:"POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({"fingerprint":fingerprint})
+            body:JSON.stringify({"fingerprint":hashed})
 
         }).then(async (res)=>{
             const data = await res.json();
@@ -29,14 +43,54 @@
                {
                 console.log("success");
                      window.location.href="http://localhost:4000/login/?"+data.encrypted_token;
+                }else{
+                    const err =  document.getElementById("error");
+                    err.style.visibility="visible";
                 }
             
              console.log(data);
 
         })
+      
+    })
+    // const myfunction=async ()=>{
+        // const fingerprint=document.getElementById("fingerprint").value;
+       
+//         const file = document.getElementById('file');
+//         const form = document.querySelector('form');
+//         const formdata = new FormData(form);
+
+//    for(item of formdata.entries())
+//     {
+//          console.log(item);
+//     }
+    // const fingerprint = await  fetch("http://localhost:4000/upload",{
+    //         method:"POST",
+    //         body:formdata
+
+    //     })
+    //     await fetch("http://localhost:5000/api/validate",{
+    //         method:"POST",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body:JSON.stringify({"fingerprint":fingerprint})
+
+    //     }).then(async (res)=>{
+    //         const data = await res.json();
+    //         if(data.success)
+    //            {
+    //             console.log("success");
+    //                  window.location.href="http://localhost:4000/login/?"+data.encrypted_token;
+    //             }
+            
+    //          console.log(data);
+
+    //     })
     //   const d=document.getElementById("fingerprint");
     //   d.submit();
         
-    }
+    // }
 </script>
 </html>

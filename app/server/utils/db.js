@@ -3,7 +3,7 @@ const password =  process.env.password;
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: "",
+    password: "nehalughade",
     database: 'voting'
 });
 
@@ -13,7 +13,7 @@ const connect = () =>{
 db.connect((err) => {
     // console.log(process.env.password)
     if (err) {
-       return  console.log('Error connecting to database');
+       return  console.log('HOS : Error connecting to database ');
         // throw err;
     }
     console.log('Connected to database');

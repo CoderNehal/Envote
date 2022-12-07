@@ -44,11 +44,11 @@ app.post('/add-voter',(req,res)=>{
         if(err)
             res.json({"failure":err});
         else {
-            const q1="INSERT INTO elections(id) values("+id+",0)";
+            const q1="INSERT INTO elections values("+id+",0)";
             db.query(q1,(er,re)=>{
                 if(er)
-                res.json({"failure":er})
-                res.json({"success":result})
+               return res.json({"failure":er})
+                return res.json({"success":result})
             })
             
         }
@@ -98,19 +98,18 @@ app.use("/api/gender",(req,res)=>{
 
 app.use("/api/year",(req,res)=>{
 let young=0,mid_age=0,old_age=0;
-
-
 })
+
 
 app.post('/api/validate',(req,res)=>{
     console.log("Fngerprint",req.body.fingerprint)
     const fingerprint = encryption(req.body.fingerprint);
     console.log(fingerprint)
     
-    const sql = "SELECT * FROM voter_info WHERE finegrprint = '" + fingerprint+"'";
+    const sql = "SELECT * FROM voter_info WHERE fingerprint = '" + fingerprint+"'";
     db.query(sql,(err,result)=>{
         if(err){
-            console.log("Here")
+            console.log(err)
             return res.json({"failure":true,"message":"UserOK failed!!!"})
         }
         console.log(result)
